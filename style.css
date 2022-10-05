@@ -60,7 +60,6 @@ body {
   text-transform: uppercase;
   font-family: "Atkinson Hyperlegible", monospace, sans-serif;
   background-color: #e5effb;
-  transition: all 0.5s ease-out;
 }
 
 .letter:focus {
@@ -85,5 +84,5 @@ body {
 }
 
 .invalid {
-  border: 4px solid #e73939;
+  border: 3px solid #e73939;
 }
