@@ -30,6 +30,10 @@ body {
   background-color: #f3ebff;
 }
 
+.hidden {
+  display: none;
+}
+
 .container-letters {
   width: 20rem;
   margin: 0 auto;
