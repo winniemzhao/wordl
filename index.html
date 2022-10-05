@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://kit.fontawesome.com/300f71314e.js" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <title>Wordl</title>
 </head>
@@ -12,14 +16,14 @@
     <header class="title">
       <h1 class="brand">Wordl</h1>
       <p>Guess the wordl of the day</p>
-      <p class="hidden">loading</p>
+      <div class="loading hidden">loading...</div>
     </header>
     <div class="container-letters">
       <div class="guess">
-        <button class="letter" id="letter-0">H</button>
-        <button class="letter" id="letter-1">Q</button>
-        <button class="letter" id="letter-2"></button>
-        <button class="letter" id="letter-3"></button>
+        <button class="letter correct" id="letter-0">a</button>
+        <button class="letter close" id="letter-1"></button>
+        <button class="letter wrong" id="letter-2"></button>
+        <button class="letter invalid" id="letter-3"></button>
         <button class="letter" id="letter-4"></button>
       </div>
       <div class="guess">
