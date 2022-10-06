@@ -65,16 +65,6 @@ async function init() {
       return;
     }
 
-    // win or continue
-    if (currentGuess === word){
-      for (let i = 0; i < ANSWER_LENGTH; i++){
-        letters[currentRow * ANSWER_LENGTH + i].classList.add("correct");
-      }
-      isDone = true;
-      win.classList.remove("hidden");
-      info.classList.add("hidden");
-      return;
-    }
 
     // validate 5-letter word
     isLoading = true;
@@ -101,6 +91,17 @@ async function init() {
       }
       hint.classList.add("hidden");
       info.classList.remove("hidden");
+    }
+
+    // win or continue
+    if (currentGuess === word){
+      for (let i = 0; i < ANSWER_LENGTH; i++){
+        letters[currentRow * ANSWER_LENGTH + i].classList.add("correct");
+      }
+      isDone = true;
+      win.classList.remove("hidden");
+      info.classList.add("hidden");
+      return;
     }
 
     // compare to word of the day and add appropriate CSS class for correct/close/wrong
