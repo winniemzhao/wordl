@@ -1,9 +1,8 @@
 const letters = document.querySelectorAll(".letter");
 const info = document.querySelector(".info");
-const brand = document.querySelector(".brand");
-const description = document.querySelector(".description");
 const loading = document.querySelector(".loading");
-const done = document.querySelector(".done");
+const hint = document.querySelector(".hint");
+const win = document.querySelector(".win");
 const tryAgain = document.querySelector(".try-again");
 const ANSWER_LENGTH = 5;
 const GUESSES = 6;
@@ -17,12 +16,11 @@ const isLetter = (letter) => {
 const setLoading = (isLoading) => {
   if (isLoading) {
     loading.classList.remove("hidden");
-    brand.classList.add("hidden");
-    description.classList.add("hidden");
+    info.classList.add("hidden");
+    hint.classList.add("hidden");
   } else if (!isLoading) {
     loading.classList.add("hidden");
-    brand.classList.remove("hidden");
-    description.classList.remove("hidden");
+    info.classList.remove("hidden");
   }
 }
 
@@ -73,7 +71,7 @@ async function init() {
         letters[currentRow * ANSWER_LENGTH + i].classList.add("correct");
       }
       isDone = true;
-      done.classList.remove("hidden");
+      win.classList.remove("hidden");
       info.classList.add("hidden");
       return;
     }
@@ -94,11 +92,15 @@ async function init() {
       for (let i = 0; i < ANSWER_LENGTH; i++){
         letters[currentRow * ANSWER_LENGTH + i].classList.add("invalid");
       }
+      hint.classList.remove("hidden");
+      info.classList.add("hidden");
       return;
     } else {
       for (let i = 0; i < ANSWER_LENGTH; i++){
         letters[currentRow * ANSWER_LENGTH + i].classList.remove("invalid");
       }
+      hint.classList.add("hidden");
+      info.classList.remove("hidden");
     }
 
     // compare to word of the day and add appropriate CSS class for correct/close/wrong
