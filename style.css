@@ -33,7 +33,7 @@ body {
 .loading {
   margin: 1rem;
   font-size: 2rem;
-  height: calc(55px + 1rem);
+  height: calc(55px + 1.25rem);
   padding: 1rem 0;
 }
 
