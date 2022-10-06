@@ -8,6 +8,7 @@ const tryAgain = document.querySelector(".try-again");
 const ANSWER_LENGTH = 5;
 const GUESSES = 6;
 const WORD_URL = "https://words.dev-apis.com/word-of-the-day";
+const VALIDATE_URL = "https://words.dev-apis.com/validate-word";
 
 const isLetter = (letter) => {
   return /^[a-zA-Z]$/.test(letter);
@@ -63,7 +64,6 @@ async function init() {
 
   async function submitGuess() {
     if (currentGuess.length != ANSWER_LENGTH) {
-      // TODO add invalid to all buttons
       return;
     }
 
@@ -79,7 +79,27 @@ async function init() {
     }
 
     // validate 5-letter word
+    isLoading = true;
+    setLoading(true);
+    const response = await fetch(VALIDATE_URL, {
+      method: "POST",
+      body: JSON.stringify({ word: currentGuess })
+    })
+    const processedResponse = await response.json();
+    const { validWord } = processedResponse;
+    isLoading = false;
+    setLoading(false);
 
+    if (!validWord){
+      for (let i = 0; i < ANSWER_LENGTH; i++){
+        letters[currentRow * ANSWER_LENGTH + i].classList.add("invalid");
+      }
+      return;
+    } else {
+      for (let i = 0; i < ANSWER_LENGTH; i++){
+        letters[currentRow * ANSWER_LENGTH + i].classList.remove("invalid");
+      }
+    }
 
     // compare to word of the day and add appropriate CSS class for correct/close/wrong
     const guessLetters = currentGuess.split("");
