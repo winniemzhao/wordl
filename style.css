@@ -30,11 +30,15 @@ body {
   background-color: #f3ebff;
 }
 
-.loading {
+.alert {
   margin: 1rem;
   font-size: 2rem;
   height: calc(55px + 1.25rem);
   padding: 1rem 0;
+}
+
+.try-again {
+  font-size: 1.75rem;
 }
 
 .hidden {

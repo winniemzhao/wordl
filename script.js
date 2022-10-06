@@ -1,8 +1,10 @@
 const letters = document.querySelectorAll(".letter");
+const info = document.querySelector(".info");
 const brand = document.querySelector(".brand");
 const description = document.querySelector(".description");
 const loading = document.querySelector(".loading");
-let isLoading = false;
+const done = document.querySelector(".done");
+const tryAgain = document.querySelector(".try-again");
 const ANSWER_LENGTH = 5;
 const GUESSES = 6;
 const WORD_URL = "https://words.dev-apis.com/word-of-the-day";
@@ -23,15 +25,30 @@ const setLoading = (isLoading) => {
   }
 }
 
+const countLetters = (array) => {
+  const lettersObj = {};
+  for (let i = 0; i < array.length; i++){
+    const letter = array[i];
+    if (lettersObj[letter]){
+      lettersObj[letter]++;
+    } else {
+      lettersObj[letter] = 1;
+    }
+  }
+  return lettersObj;
+}
+
 async function init() {
   let currentRow = 0;
   let currentGuess = "";
-  let done = false;
+  let isDone = false;
+  let isLoading = true;
 
   const response = await fetch(WORD_URL);
   const processedResponse = await response.json();
   const word = processedResponse.word.toUpperCase();
-  setLoading(false);
+  isLoading = false;
+  setLoading(isLoading);
 
   const addLetter = (letter) => {
     if (currentGuess.length === ANSWER_LENGTH){
@@ -46,27 +63,68 @@ async function init() {
 
   async function submitGuess() {
     if (currentGuess.length != ANSWER_LENGTH) {
-      // add invalid to all buttons
+      // TODO add invalid to all buttons
+      return;
+    }
+
+    // win or continue
+    if (currentGuess === word){
+      for (let i = 0; i < ANSWER_LENGTH; i++){
+        letters[currentRow * ANSWER_LENGTH + i].classList.add("correct");
+      }
+      isDone = true;
+      done.classList.remove("hidden");
+      info.classList.add("hidden");
       return;
     }
 
     // validate 5-letter word
-    // compare to word of the day
-    // add appropriate CSS class
-    // win or continue guessing
+
+
+    // compare to word of the day and add appropriate CSS class for correct/close/wrong
+    const guessLetters = currentGuess.split("");
+    const wordLetters = word.split("");
+    const letterCount = countLetters(wordLetters);
+
+    for (let i = 0; i < ANSWER_LENGTH; i++){
+      // mark as correct
+      if (guessLetters[i] === wordLetters[i]){
+        letters[currentRow * ANSWER_LENGTH + i].classList.add("correct");
+        letterCount[guessLetters[i]]--;
+      }
+    }
+
+    for (let i = 0; i < ANSWER_LENGTH; i++){
+      if (guessLetters[i] === wordLetters[i]){
+        // do nothing
+      } else if (wordLetters.includes(guessLetters[i]) && letterCount[guessLetters[i]] > 0){
+        letters[currentRow * ANSWER_LENGTH + i].classList.add("close");
+        letterCount[guessLetters[i]]--;
+      } else {
+        letters[currentRow * ANSWER_LENGTH + i].classList.add("wrong");
+      }
+    }
 
     currentRow ++;
     currentGuess = "";
+
+    if (currentRow === GUESSES){
+      isDone = true;
+      tryAgain.classList.remove("hidden");
+      info.classList.add("hidden");
+    }
   }
 
   const backspace = () => {
     currentGuess = currentGuess.slice(0, -1);
-    letters[currentGuess.length].innerText = "";
+    letters[currentRow * ANSWER_LENGTH + currentGuess.length].innerText = "";
   }
 
   document.addEventListener("keydown", function(event) {
+    if (isDone || isLoading){
+      return;
+    }
     const keyPressed = event.key.toUpperCase();
-    console.log(keyPressed);
     if (keyPressed === "ENTER"){
       submitGuess();
     } else if (keyPressed === "BACKSPACE"){
