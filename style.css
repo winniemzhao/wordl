@@ -90,3 +90,7 @@ body {
 .invalid {
   border: 3px solid #e73939;
 }
+
+aside {
+  margin-top: 1rem;
+}

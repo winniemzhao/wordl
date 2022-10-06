@@ -65,7 +65,6 @@ async function init() {
       return;
     }
 
-
     // validate 5-letter word
     isLoading = true;
     setLoading(true);
