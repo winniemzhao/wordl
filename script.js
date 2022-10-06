@@ -2,6 +2,7 @@ const letters = document.querySelectorAll(".letter");
 const loading = document.querySelector(".loading");
 const ANSWER_LENGTH = 5;
 const GUESSES = 6;
+const WORD_URL = "https://words.dev-apis.com/word-of-the-day";
 
 const isLetter = (letter) => {
   return /^[a-zA-Z]$/.test(letter);
@@ -12,6 +13,10 @@ async function init() {
   let currentGuess = "";
   let done = false;
   let isLoading = true;
+
+  const response = await fetch(WORD_URL);
+  const processedResponse = await response.json();
+  const word = processedResponse.word.toUpperCase();
 
   const addLetter = (letter) => {
     if (currentGuess.length === ANSWER_LENGTH){
